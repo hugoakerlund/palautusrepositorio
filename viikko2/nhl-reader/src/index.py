@@ -21,6 +21,7 @@ def get_players_of_nationality(response, nationality):
         if player.nationality == nationality:
             players.append(player)
 
+    players.sort(key=lambda p: p.points, reverse=True)
     return players
 
 
