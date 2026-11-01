@@ -8,11 +8,24 @@ class PlayerStats:
         new_players.sort(key=lambda p: p.points, reverse=True)
         return new_players
 
+    def top_scorers_by_team(self, team):
+        new_players = list(filter(lambda p: p.team == team, self.players))
+        new_players.sort(key=lambda p: p.points, reverse=True)
+        return new_players
+
     def get_nationalities(self):
         nationalities = set()
         for player in self.players:
             nationalities.add(player.nationality)
         return sorted(list(nationalities))
+
+    def get_teams(self):
+        teams = set()
+        for player in self.players:
+            player_teams = player.team.split(', ')
+            for team in player_teams:
+                teams.add(team)
+        return sorted(list(teams))
 
     def get_seasons(self):
         seasons = [
@@ -26,3 +39,7 @@ class PlayerStats:
                 "2025-26",
                 ]
         return seasons
+
+    def top_goal_scorers(self, how_many):
+        new_players = sorted(self.players, key=lambda p: p.goals, reverse=True)
+        return new_players[:how_many]
