@@ -3,7 +3,7 @@ from summa import summa
 from erotus import erotus
 from tulo import tulo
 
-logger("aloitetaan ohjelma") # Muokattu alkuperäisen kloonin main-haarasta
+logger("aloitetaan ohjelma")
 
 x = int(input("luku 1: "))
 y = int(input("luku 2: "))
