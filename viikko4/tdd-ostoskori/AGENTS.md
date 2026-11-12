@@ -1,4 +1,4 @@
-# Repositorio ohjeet
+# Repositorio-ohjeet
 
 - Tämä repositorio on yksinkertainen ostoskori, johon voidaan listätä tuotteita ja poistaa niitä.
 - Ostoskori ohjelmoidaan Test Driven Development -tekniikalla:
