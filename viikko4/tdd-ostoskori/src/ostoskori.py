@@ -5,17 +5,17 @@ class Ostoskori:
     def __init__(self):
         self._ostokset = []
 
-    def tavaroita_korissa(self):
-        return sum(ostos.lukumaara() for ostos in self._ostokset)
-
-    def hinta(self):
-        return sum(ostos.hinta() for ostos in self._ostokset)
-
     def _hae_ostos(self, tuote: Tuote):
         return next(
             (ostos for ostos in self._ostokset if ostos.tuotteen_nimi() == tuote.nimi()),
             None,
         )
+
+    def tavaroita_korissa(self):
+        return sum(ostos.lukumaara() for ostos in self._ostokset)
+
+    def hinta(self):
+        return sum(ostos.hinta() for ostos in self._ostokset)
 
     def lisaa_tuote(self, lisattava: Tuote):
         ostos = self._hae_ostos(lisattava)
