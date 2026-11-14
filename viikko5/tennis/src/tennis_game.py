@@ -8,8 +8,10 @@ class TennisGame:
     def won_point(self, player_name):
         if player_name == self.player1_name:
             self.player1_score += 1
-        else:
+        elif player_name == self.player2_name:
             self.player2_score += 1
+        else:
+            raise ValueError("Player name does not match player1 or player2")
 
 
     def get_draw_situation(self):
