@@ -2,64 +2,69 @@ class TennisGame:
     def __init__(self, player1_name, player2_name):
         self.player1_name = player1_name
         self.player2_name = player2_name
-        self.m_score1 = 0
-        self.m_score2 = 0
+        self.player1_score = 0
+        self.player2_score = 0
 
     def won_point(self, player_name):
-        if player_name == "player1":
-            self.m_score1 = self.m_score1 + 1
+        if player_name == self.player1_name:
+            self.player1_score += 1
         else:
-            self.m_score2 = self.m_score2 + 1
+            self.player2_score += 1
 
 
     def get_draw_situation(self):
-        match self.m_score1:
+        match self.player1_score:
             case 0:
                 return "Love-All"
             case 1:
                 return "Fifteen-All"
             case 2:
                 return "Thirty-All"
-            case _:
-                return "Deuce"
+        return "Deuce"
 
 
-    def handle_advantage(self):
-        difference = self.m_score1 - self. m_score2
-        if difference == 1:
+    def get_advantage_situation(self):
+        advantage = self.player1_score - self. player2_score
+
+        if abs(advantage) >= 2:
+            return self.get_winner(advantage)
+
+        elif advantage == 1:
             return "Advantage player1"
-        elif difference == -1:
-            return "Advantage player2"
-        elif difference >= 2:
+        return "Advantage player2"
+
+    def get_winner(self, advantage):
+        if advantage >= 2:
             return "Win for player1"
         return "Win for player2"
 
     def get_game_situation(self):
         score = ""
-        player_score = 0
+        player_score = self.player1_score
         for player in range(1, 2 + 1):
-            if player == 1:
-                player_score = self.m_score1
-            else:
-                score = score + "-"
-                player_score = self.m_score2
+            if player == 2:
+                score += "-"
+                player_score = self.player2_score
 
-            if player_score == 0:
-                score = score + "Love"
-            elif player_score == 1:
-                score = score + "Fifteen"
-            elif player_score == 2:
-                score = score + "Thirty"
-            elif player_score == 3:
-                score = score + "Forty"
+            match player_score:
+                case 0:
+                    score += "Love"
+                case 1:
+                    score += "Fifteen"
+                case 2:
+                    score += "Thirty"
+                case 3:
+                    score += "Forty"
         return score
 
 
     def get_score(self):
-        if self.m_score1 == self.m_score2:
+        advantage_point = 4
+        if self.player1_score == self.player2_score:
             return self.get_draw_situation()
 
-        elif self.m_score1 >= 4 or self.m_score2 >= 4:
-            return self.handle_advantage()
+        elif self.player1_score >= advantage_point or \
+             self.player2_score >= advantage_point:
+                return self.get_advantage_situation()
 
         return self.get_game_situation()
