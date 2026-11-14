@@ -41,21 +41,24 @@ class TennisGame:
     def get_game_situation(self):
         score = ""
         player_score = self.player1_score
-        for player in range(1, 2 + 1):
+        players = [1, 2]
+        for player in players:
             if player == 2:
                 score += "-"
                 player_score = self.player2_score
-
-            match player_score:
-                case 0:
-                    score += "Love"
-                case 1:
-                    score += "Fifteen"
-                case 2:
-                    score += "Thirty"
-                case 3:
-                    score += "Forty"
+            score += self.score_to_string(player_score)
         return score
+
+    def score_to_string(self, score):
+        match score:
+            case 0:
+                return "Love"
+            case 1:
+                return "Fifteen"
+            case 2:
+                return "Thirty"
+            case 3:
+                return "Forty"
 
 
     def get_score(self):
