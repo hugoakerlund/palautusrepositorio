@@ -24,6 +24,21 @@ class TennisGame:
             score = "Deuce"
         return score
 
+
+    def handle_greater_than_4(self):
+        score = ""
+        minus_result = self.m_score1 - self. m_score2
+        if minus_result == 1:
+            score = "Advantage player1"
+        elif minus_result == -1:
+            score = "Advantage player2"
+        elif minus_result >= 2:
+            score = "Win for player1"
+        else:
+            score = "Win for player2"
+        return score
+
+
     def get_score(self):
         score = ""
         temp_score = 0
@@ -32,16 +47,8 @@ class TennisGame:
             score = self.handle_draw()
 
         elif self.m_score1 >= 4 or self.m_score2 >= 4:
-            minus_result = self.m_score1 - self. m_score2
+            score = self.handle_greater_than_4()
 
-            if minus_result == 1:
-                score = "Advantage player1"
-            elif minus_result == -1:
-                score = "Advantage player2"
-            elif minus_result >= 2:
-                score = "Win for player1"
-            else:
-                score = "Win for player2"
         else:
             for i in range(1, 3):
                 if i == 1:
