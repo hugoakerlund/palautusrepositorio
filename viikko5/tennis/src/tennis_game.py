@@ -13,30 +13,24 @@ class TennisGame:
 
 
     def handle_draw(self):
-        score = ""
         if self.m_score1 == 0:
-            score = "Love-All"
+            return "Love-All"
         elif self.m_score1 == 1:
-            score = "Fifteen-All"
+            return "Fifteen-All"
         elif self.m_score1 == 2:
-            score = "Thirty-All"
-        else:
-            score = "Deuce"
-        return score
+            return "Thirty-All"
+        return "Deuce"
 
 
     def handle_greater_than_4(self):
-        score = ""
-        minus_result = self.m_score1 - self. m_score2
-        if minus_result == 1:
-            score = "Advantage player1"
-        elif minus_result == -1:
-            score = "Advantage player2"
-        elif minus_result >= 2:
-            score = "Win for player1"
-        else:
-            score = "Win for player2"
-        return score
+        difference = self.m_score1 - self. m_score2
+        if difference == 1:
+            return "Advantage player1"
+        elif difference == -1:
+            return "Advantage player2"
+        elif difference >= 2:
+            return "Win for player1"
+        return "Win for player2"
 
     def handle_less_than_4(self):
         score = ""
