@@ -11,19 +11,26 @@ class TennisGame:
         else:
             self.m_score2 = self.m_score2 + 1
 
+
+    def handle_draw(self):
+        score = ""
+        if self.m_score1 == 0:
+            score = "Love-All"
+        elif self.m_score1 == 1:
+            score = "Fifteen-All"
+        elif self.m_score1 == 2:
+            score = "Thirty-All"
+        else:
+            score = "Deuce"
+        return score
+
     def get_score(self):
         score = ""
         temp_score = 0
 
         if self.m_score1 == self.m_score2:
-            if self.m_score1 == 0:
-                score = "Love-All"
-            elif self.m_score1 == 1:
-                score = "Fifteen-All"
-            elif self.m_score1 == 2:
-                score = "Thirty-All"
-            else:
-                score = "Deuce"
+            score = self.handle_draw()
+
         elif self.m_score1 >= 4 or self.m_score2 >= 4:
             minus_result = self.m_score1 - self. m_score2
 
