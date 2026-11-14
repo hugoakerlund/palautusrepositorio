@@ -12,17 +12,19 @@ class TennisGame:
             self.m_score2 = self.m_score2 + 1
 
 
-    def handle_draw(self):
-        if self.m_score1 == 0:
-            return "Love-All"
-        elif self.m_score1 == 1:
-            return "Fifteen-All"
-        elif self.m_score1 == 2:
-            return "Thirty-All"
-        return "Deuce"
+    def get_draw_situation(self):
+        match self.m_score1:
+            case 0:
+                return "Love-All"
+            case 1:
+                return "Fifteen-All"
+            case 2:
+                return "Thirty-All"
+            case _:
+                return "Deuce"
 
 
-    def handle_greater_than_4(self):
+    def handle_advantage(self):
         difference = self.m_score1 - self. m_score2
         if difference == 1:
             return "Advantage player1"
@@ -32,32 +34,32 @@ class TennisGame:
             return "Win for player1"
         return "Win for player2"
 
-    def handle_less_than_4(self):
+    def get_game_situation(self):
         score = ""
-        temp_score = 0
-        for i in range(1, 3):
-            if i == 1:
-                temp_score = self.m_score1
+        player_score = 0
+        for player in range(1, 2 + 1):
+            if player == 1:
+                player_score = self.m_score1
             else:
                 score = score + "-"
-                temp_score = self.m_score2
+                player_score = self.m_score2
 
-            if temp_score == 0:
+            if player_score == 0:
                 score = score + "Love"
-            elif temp_score == 1:
+            elif player_score == 1:
                 score = score + "Fifteen"
-            elif temp_score == 2:
+            elif player_score == 2:
                 score = score + "Thirty"
-            elif temp_score == 3:
+            elif player_score == 3:
                 score = score + "Forty"
         return score
 
 
     def get_score(self):
         if self.m_score1 == self.m_score2:
-            return  self.handle_draw()
+            return self.get_draw_situation()
 
         elif self.m_score1 >= 4 or self.m_score2 >= 4:
-            return self.handle_greater_than_4()
+            return self.handle_advantage()
 
-        return self.handle_less_than_4()
+        return self.get_game_situation()
