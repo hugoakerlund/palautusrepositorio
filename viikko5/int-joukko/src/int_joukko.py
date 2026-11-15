@@ -60,33 +60,34 @@ class IntJoukko:
             self._kasvata_taulukkoa()
 
     def _kasvata_taulukkoa(self):
-        taulukko_old = self.taulukko
+        vanhat_alkiot = self.taulukko
         self.taulukko = self._luo_taulukko(self.koko + self.kasvatuskoko)
-        self.kopioi_lista(taulukko_old, self.taulukko)
+        self._kopioi_alkiot(vanhat_alkiot, self.taulukko)
 
 
     def poista(self, n):
-        kohta = -1
-        apu = 0
-
-        for i in range(0, self.koko):
-            if n == self.taulukko[i]:
-                kohta = i  # siis luku löytyy tuosta kohdasta :D
-                self.taulukko[kohta] = 0
-                break
+        kohta = self._poista_alkio(n)
 
         if kohta != -1:
-            for j in range(kohta, self.koko - 1):
-                apu = self.taulukko[j]
-                self.taulukko[j] = self.taulukko[j + 1]
-                self.taulukko[j + 1] = apu
-
-            self.koko = self.koko - 1
+            self._siirra_oikealle(kohta)
             return True
 
         return False
 
-    def kopioi_lista(self, a, b):
+    def _poista_alkio(self, n):
+        for i in range(self.koko):
+            if n == self.taulukko[i]:
+                self.taulukko[i] = 0
+                return i
+        return -1
+
+    def _siirra_oikealle(self, kohta):
+        for i in range(kohta, self.koko - 1):
+            self.taulukko[i], self.taulukko[i + 1] = self.taulukko[i + 1], self.taulukko[i]
+        self.koko = self.koko - 1
+
+
+    def _kopioi_alkiot(self, a, b):
         for i in range(0, len(a)):
             b[i] = a[i]
 
