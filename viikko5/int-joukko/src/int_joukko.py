@@ -1,8 +1,5 @@
-KAPASITEETTI = 5
+OLETUSKAPASITEETTI = 5
 OLETUSKASVATUS = 5
-
-def luo_listat(a, b):
-    return (a.to_int_list(), b.to_int_list())
 
 class IntJoukko:
 
@@ -15,11 +12,12 @@ class IntJoukko:
 
     def _aseta_kapasiteetti(self, kapasiteetti):
         if kapasiteetti is None:
-            self.kapasiteetti = KAPASITEETTI
+            self.kapasiteetti = OLETUSKAPASITEETTI
         elif not isinstance(kapasiteetti, int) or kapasiteetti < 0:
             raise Exception("Väärä kapasiteetti")
         else:
             self.kapasiteetti = kapasiteetti
+
 
     def _aseta_kasvastuskoko(self, kasvatuskoko):
         if kasvatuskoko is None:
@@ -27,14 +25,17 @@ class IntJoukko:
         else:
             self.kasvatuskoko = kasvatuskoko
 
+
     def _luo_taulukko(self, koko):
         return [0] * koko
+
 
     def kuuluu(self, n):
         for i in range(self.koko):
             if n == self.taulukko[i]:
                 return True
         return False
+
 
     def lisaa(self, n):
         if self.koko == 0:
@@ -47,9 +48,11 @@ class IntJoukko:
 
         return False
 
+
     def _lisaa_alkuun(self, n):
         self.taulukko[0] = n
         self.koko = self.koko + 1
+
 
     def _lisaa_loppuun(self, n):
         self.taulukko[self.koko] = n
@@ -59,14 +62,21 @@ class IntJoukko:
         if self.koko == len(self.taulukko):
             self._kasvata_taulukkoa()
 
-    def lisaa_taulukko(self, taulukko):
-        for i in range(len(taulukko)):
-            self.lisaa(taulukko[i])
 
     def _kasvata_taulukkoa(self):
         vanhat_alkiot = self.taulukko
         self.taulukko = self._luo_taulukko(self.koko + self.kasvatuskoko)
         self._kopioi_alkiot(vanhat_alkiot, self.taulukko)
+
+
+    def lisaa_taulukko(self, taulukko):
+        for i in range(len(taulukko)):
+            self.lisaa(taulukko[i])
+
+
+    def poista_taulukko(self, taulukko):
+        for i in range(len(taulukko)):
+            self.poista(taulukko[i])
 
 
     def poista(self, n):
@@ -78,12 +88,14 @@ class IntJoukko:
 
         return False
 
+
     def _poista_alkio(self, n):
         for i in range(self.koko):
             if n == self.taulukko[i]:
                 self.taulukko[i] = 0
                 return i
         return -1
+
 
     def _siirra_oikealle(self, kohta):
         for i in range(kohta, self.koko - 1):
@@ -92,11 +104,23 @@ class IntJoukko:
 
 
     def _kopioi_alkiot(self, a, b):
-        for i in range(0, len(a)):
+        for i in range(len(a)):
             b[i] = a[i]
+
 
     def mahtavuus(self):
         return self.koko
+
+
+    def __str__(self):
+        uusi_lista = self.to_int_list()
+        koko = len(uusi_lista)
+        if koko == 0:
+            return "{}"
+        else:
+            tulos = ", ".join(map(str, uusi_lista))
+            return "{" + tulos + "}"
+
 
     def to_int_list(self):
         uusi_taulu = self._luo_taulukko(self.koko)
@@ -106,20 +130,6 @@ class IntJoukko:
 
         return uusi_taulu
 
-    def __str__(self):
-        if self.koko == 0:
-            return "{}"
-        elif self.koko == 1:
-            return "{" + str(self.taulukko[0]) + "}"
-        else:
-            tuotos = "{"
-            for i in range(0, self.koko - 1):
-                tuotos = tuotos + str(self.taulukko[i])
-                tuotos = tuotos + ", "
-            tuotos = tuotos + str(self.taulukko[self.koko - 1])
-            tuotos = tuotos + "}"
-            return tuotos
-
 
     @staticmethod
     def yhdiste(a, b):
@@ -128,6 +138,7 @@ class IntJoukko:
         tulos.lisaa_taulukko(a_taulu)
         tulos.lisaa_taulukko(b_taulu)
         return tulos
+
 
     @staticmethod
     def leikkaus(a, b):
@@ -141,15 +152,17 @@ class IntJoukko:
 
         return tulos
 
+
     @staticmethod
     def erotus(a, b):
         tulos = IntJoukko()
         a_taulu, b_taulu = luo_listat(a, b)
 
         tulos.lisaa_taulukko(a_taulu)
-
-        for b in b_taulu:
-            tulos.poista(b)
+        tulos.poista_taulukko(b_taulu)
 
         return tulos
 
+
+def luo_listat(a, b):
+    return (a.to_int_list(), b.to_int_list())
