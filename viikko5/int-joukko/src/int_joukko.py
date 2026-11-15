@@ -59,6 +59,10 @@ class IntJoukko:
         if self.koko == len(self.taulukko):
             self._kasvata_taulukkoa()
 
+    def lisaa_taulukko(self, taulukko):
+        for i in range(len(taulukko)):
+            self.lisaa(taulukko[i])
+
     def _kasvata_taulukkoa(self):
         vanhat_alkiot = self.taulukko
         self.taulukko = self._luo_taulukko(self.koko + self.kasvatuskoko)
@@ -95,12 +99,12 @@ class IntJoukko:
         return self.koko
 
     def to_int_list(self):
-        taulu = self._luo_taulukko(self.koko)
+        uusi_taulu = self._luo_taulukko(self.koko)
 
-        for i in range(0, len(taulu)):
-            taulu[i] = self.taulukko[i]
+        for i in range(len(uusi_taulu)):
+            uusi_taulu[i] = self.taulukko[i]
 
-        return taulu
+        return uusi_taulu
 
     def __str__(self):
         if self.koko == 0:
@@ -119,39 +123,33 @@ class IntJoukko:
 
     @staticmethod
     def yhdiste(a, b):
-        x = IntJoukko()
+        tulos = IntJoukko()
         a_taulu, b_taulu = luo_listat(a, b)
-
-        for i in range(0, len(a_taulu)):
-            x.lisaa(a_taulu[i])
-
-        for i in range(0, len(b_taulu)):
-            x.lisaa(b_taulu[i])
-
-        return x
+        tulos.lisaa_taulukko(a_taulu)
+        tulos.lisaa_taulukko(b_taulu)
+        return tulos
 
     @staticmethod
     def leikkaus(a, b):
-        y = IntJoukko()
+        tulos = IntJoukko()
         a_taulu, b_taulu = luo_listat(a, b)
 
-        for i in range(0, len(a_taulu)):
-            for j in range(0, len(b_taulu)):
-                if a_taulu[i] == b_taulu[j]:
-                    y.lisaa(b_taulu[j])
+        for a in a_taulu:
+            for b in b_taulu:
+                if a == b:
+                    tulos.lisaa(a)
 
-        return y
+        return tulos
 
     @staticmethod
     def erotus(a, b):
-        z = IntJoukko()
+        tulos = IntJoukko()
         a_taulu, b_taulu = luo_listat(a, b)
 
-        for i in range(0, len(a_taulu)):
-            z.lisaa(a_taulu[i])
+        tulos.lisaa_taulukko(a_taulu)
 
-        for i in range(0, len(b_taulu)):
-            z.poista(b_taulu[i])
+        for b in b_taulu:
+            tulos.poista(b)
 
-        return z
+        return tulos
 
