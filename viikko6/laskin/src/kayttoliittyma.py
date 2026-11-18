@@ -14,6 +14,21 @@ class Kayttoliittyma:
         self._sovelluslogiikka = sovelluslogiikka
         self._root = root
 
+        self._komennot = {
+                Komento.SUMMA: Summa(sovelluslogiikka, self._lue_syote),
+                Komento.EROTUS: Erotus(sovelluslogiikka, self._lue_syote),
+                Komento.NOLLAUS: Nollaus(sovelluslogiikka, self._lue_syote),
+                Komento.KUMOA: Kumoa(sovelluslogiikka, self._lue_syote),
+                }
+
+    def _lue_syote(self):
+        arvo = 0
+        try:
+            arvo = int(self._syote_kentta.get())
+        except:
+            pass
+        return arvo
+
     def kaynnista(self):
         self._arvo_var = StringVar()
         self._arvo_var.set(self._sovelluslogiikka.arvo())
@@ -55,16 +70,8 @@ class Kayttoliittyma:
         self._kumoa_painike.grid(row=2, column=3)
 
     def _suorita_komento(self, komento):
-        arvo = 0
-        self.komennot = KomentoTehdas(self._sovelluslogiikka)
 
-        try:
-            arvo = int(self._syote_kentta.get())
-        except Exception:
-            pass
-
-        self.komennot.hae(komento).suorita(arvo)
-
+        self._komennot[komento].suorita()
         self._kumoa_painike["state"] = constants.NORMAL
 
         if self._sovelluslogiikka.arvo() == 0:
@@ -75,44 +82,34 @@ class Kayttoliittyma:
         self._syote_kentta.delete(0, constants.END)
         self._arvo_var.set(self._sovelluslogiikka.arvo())
 
-class KomentoTehdas:
-    def __init__(self, sovelluslogiikka):
-        self.sovelluslogiikka = sovelluslogiikka
-        self.komennot = {
-                Komento.SUMMA: Summa(sovelluslogiikka),
-                Komento.EROTUS: Erotus(sovelluslogiikka),
-                Komento.NOLLAUS: Nollaus(sovelluslogiikka),
-                Komento.KUMOA: Kumoa(),
-                }
-
-    def hae(self, komento):
-        if komento in self.komennot:
-            return self.komennot[komento]
-
 class Summa:
-    def __init__(self, sovelluslogiikka):
+    def __init__(self, sovelluslogiikka, lue_syote):
         self.sovelluslogiikka = sovelluslogiikka
+        self.lue_syote = lue_syote
 
-    def suorita(self, arvo):
-        self.sovelluslogiikka.plus(arvo)
+    def suorita(self):
+        self.sovelluslogiikka.plus(self.lue_syote())
 
 class Erotus:
-    def __init__(self, sovelluslogiikka):
+    def __init__(self, sovelluslogiikka, lue_syote):
         self.sovelluslogiikka = sovelluslogiikka
+        self.lue_syote = lue_syote
 
-    def suorita(self, arvo):
-        self.sovelluslogiikka.miinus(arvo)
+    def suorita(self):
+        self.sovelluslogiikka.miinus(self.lue_syote())
 
 class Nollaus:
-    def __init__(self, sovelluslogiikka):
+    def __init__(self, sovelluslogiikka, lue_syote):
         self.sovelluslogiikka = sovelluslogiikka
+        self.lue_syote = lue_syote
 
-    def suorita(self, arvo):
+    def suorita(self):
         self.sovelluslogiikka.nollaa()
 
 class Kumoa:
-    def __init__(self):
-        pass
+    def __init__(self, sovelluslogiikka, lue_syote):
+        self.sovelluslogiikka = sovelluslogiikka
+        self.lue_syote = lue_syote
 
-    def suorita(self, arvo):
+    def suorita(self):
         pass
