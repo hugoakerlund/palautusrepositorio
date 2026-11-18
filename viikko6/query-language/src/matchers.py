@@ -17,11 +17,11 @@ class Not:
         return not self._matcher.test(player)
 
 class All:
-    def __init__(self, matcher):
-        self._matcher = matcher
+    def __init__(self):
+        pass
 
     def test(self, player):
-        return self._matcher.test(player)
+        return True
 
 class PlaysIn:
     def __init__(self, team):
