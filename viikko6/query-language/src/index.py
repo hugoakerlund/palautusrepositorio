@@ -1,25 +1,13 @@
 from statistics import Statistics
 from player_reader import PlayerReader
-from query_builder import QueryBuilder
+from parse import parse
 
 def main():
     url = "https://studies.cs.helsinki.fi/nhlstats/2024-25/players.txt"
     reader = PlayerReader(url)
     stats = Statistics(reader)
 
-    query = QueryBuilder()
-
-    matcher = (
-      query
-        .one_of(
-          query.plays_in("PHI")
-              .has_at_least(10, "assists")
-              .has_fewer_than(10, "goals"),
-          query.plays_in("EDM")
-              .has_at_least(50, "points")
-        )
-        .build()
-    )
+    matcher = parse("team = PHI and assists >= 10 and goals < 10 or team = EDM and points >= 50")
 
     for player in stats.matches(matcher):
         print(player)
